@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2B2A2F</color>
+    <color name="colorPrimaryDark">#2B2A2F</color>
+    <color name="colorAccent">#009688</color>
+    <color name="lightPrimaryColor">#C5CAE9</color>
+    <color name="divisor">#BDBDBD</color>
+    <color name="text">#FFFFFF</color>
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#757575</color>
+    <color name="fondo">#2B2A2F</color>
+    <color name="fondoclaro">#403F44</color>
+    <color name="colorAccentFuerte">#128C7E</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#128C7E</color>
+</resources>

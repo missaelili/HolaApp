@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name"></string>
+    <string name="app_titulo">HolaApp</string>
+    <string name="slogan">Encuentra la persona correcta</string>
+    <string name="entrar">Entrar</string>
+    <string name="registro">Registrarme</string>
+    <string name="cuentanos">Cuentanos un poco sobre ti</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="hombre">Hombre</string>
+    <string name="mujer">Mujer</string>
+    <string name="beneficio1">Sin publicidad</string>
+    <string name="beneficio2">Mejores resultados</string>
+    <string name="beneficio3">Conversaciones sin limites de tiempo</string>
+    <string name="nuevomatch">Nuevo Match</string>
+</resources>

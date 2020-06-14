@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "148818393068",
+    "firebase_url": "https://holapp-8287e.firebaseio.com",
+    "project_id": "holapp-8287e",
+    "storage_bucket": "holapp-8287e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148818393068:android:de8de58ea1e505aee6f2c9",
+        "android_client_info": {
+          "package_name": "com.example.holaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148818393068-tbeajkp2cofq2vob822eqlomtfv1r11p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.holaapp",
+            "certificate_hash": "913953a45368edde1eb4cf40b28be3161ecfa2f9"
+          }
+        },
+        {
+          "client_id": "148818393068-svvaab9pfr8dgp2d4pqrilfvrsn7sqlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPNW6NCmpbRt6TQY9VGuBchPaQrximVeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148818393068-svvaab9pfr8dgp2d4pqrilfvrsn7sqlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

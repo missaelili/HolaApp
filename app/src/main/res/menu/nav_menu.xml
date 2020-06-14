@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Mi perfil"/>
+        <item
+            android:id="@+id/nav_premium"
+            android:title="Convierte en premium"/>
+        <item
+            android:id="@+id/nav_cerrar"
+            android:title="Cerrar panel"/>
+        <item android:title="" /><item android:title="" /><item android:title="" /><item android:title="" /><item android:title="" /><item android:title="" />
+        <item
+            android:id="@+id/nav_sesion"
+            android:title="Cerrar sesión"/>
+    </group>
+
+</menu>

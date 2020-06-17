@@ -3,11 +3,9 @@ package com.example.holaapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.View
 import androidx.core.view.GravityCompat
-import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -19,9 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_menu.*
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +29,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var user : FirebaseUser? = null
     private var extrañocorreo = ""
-    var premium = false
+    var premium : Boolean? = null
 
     private var publicidad = 0;
 
@@ -65,19 +60,6 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
          val userCorreo = user?.email.toString()
-         db.collection("users").document(userCorreo).get().addOnSuccessListener { document ->
-             if (document != null) {
-                 premium = document.getBoolean("premium")!!
-                //Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-             } else {
-                //Log.d(TAG, "No such document")
-             }
-         }
-             .addOnFailureListener { exception ->
-                 //Log.d(TAG, "get failed with ", exception)
-             }
-
-        siguienteExtraño(userCorreo)
 
         btnAjustes.setOnClickListener {
             drawerLayout.translationZ = 1F
@@ -131,8 +113,11 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if(document.getString("correo").toString().equals(correo)) continue;
-                    else{
+                    var usu : String
+                    if(document.getString("correo").toString().equals(correo)){
+                        usu = "c"
+                    }else{
+                        usu = "p"
                         if(document.get(correo.substring(0, correo.length-4)) == null){
                             if (document.getString("genero") == "Hombre") btnimgPerfil.setImageDrawable(applicationContext.getDrawable(R.drawable.hombre))
                             else btnimgPerfil.setImageDrawable(applicationContext.getDrawable(R.drawable.mujer))
@@ -145,8 +130,25 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 inte.putExtra("correo", extrañocorreo)
                                 startActivity(inte)
                             }
+                            btndislike.visibility = View.VISIBLE
+                            btnlike.visibility = View.VISIBLE
+                            btnlike.isClickable = true
+                            btndislike.isClickable = true
+                            btnlike.isEnabled = true
+                            btndislike.isEnabled = true
                             break
                         }
+                    }
+                    if(usu.equals("c")){
+                        tvNombreEdad.setText("Regresa más tarde")
+                        tvHobby.setText("No hay más usuarios por el momento")
+                        btnimgPerfil.setImageDrawable(null)
+                        btndislike.visibility = View.INVISIBLE
+                        btnlike.visibility = View.INVISIBLE
+                        btnlike.isClickable = false
+                        btndislike.isClickable = false
+                        btnlike.isEnabled = false
+                        btndislike.isEnabled = false
                     }
                 }
             }
@@ -155,7 +157,6 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 }
 
     private fun evaluarExtraño(correoExtraño : String, userCorreo : String, resultado : String){
-        botones()
         val datos = hashMapOf<String, Any>(
             userCorreo.substring(0, userCorreo.length-4) to true
         )
@@ -177,7 +178,6 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ).addOnSuccessListener { documentReference ->
             evaluarMatch(userCorreo, correoExtraño)
             siguienteExtraño(userCorreo)
-            botones()
         }
             .addOnFailureListener { e ->
                 Snackbar.make(window.decorView.findViewById(android.R.id.content),"Hubo un problema con el registro, intentalo más tarde", Snackbar.LENGTH_SHORT).show()
@@ -191,7 +191,6 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         db.collection("users").document(userCorreo).collection("conocidos").document("usuarios").update(datos
         ).addOnSuccessListener { documentReference ->
             siguienteExtraño(userCorreo)
-            botones()
         }
             .addOnFailureListener { e ->
                 Snackbar.make(window.decorView.findViewById(android.R.id.content),"Hubo un problema con el registro, intentalo más tarde", Snackbar.LENGTH_SHORT).show()
@@ -239,16 +238,26 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun botones(){
-        btnchat.isEnabled = !btnchat.isEnabled
-        btnAjustes.isEnabled = !btnchat.isEnabled
-        btnlike.isEnabled = !btnchat.isEnabled
-        btndislike.isEnabled = !btnchat.isEnabled
-        btnimgPerfil.isEnabled = !btnchat.isEnabled
-        btnchat.isClickable = !btnchat.isClickable
-        btnAjustes.isClickable = !btnchat.isClickable
-        btnlike.isClickable = !btnchat.isClickable
-        btndislike.isClickable = !btnchat.isClickable
-        btnimgPerfil.isClickable = !btnchat.isClickable
+    override fun onResume() {
+        super.onResume()
+        siguienteExtraño(user?.email.toString())
+        db.collection("users").document(user?.email.toString()).get().addOnSuccessListener { document ->
+            if (document != null) {
+                premium = document.getBoolean("premium")
+            } else {}
+        }.addOnFailureListener { exception ->}
     }
+
+//    private fun botones(){
+//        btnchat.isEnabled = !btnchat.isEnabled
+//        btnAjustes.isEnabled = !btnchat.isEnabled
+//        btnlike.isEnabled = !btnchat.isEnabled
+//        btndislike.isEnabled = !btnchat.isEnabled
+//        btnimgPerfil.isEnabled = !btnchat.isEnabled
+//        btnchat.isClickable = !btnchat.isClickable
+//        btnAjustes.isClickable = !btnchat.isClickable
+//        btnlike.isClickable = !btnchat.isClickable
+//        btndislike.isClickable = !btnchat.isClickable
+//        btnimgPerfil.isClickable = !btnchat.isClickable
+//    }
 }

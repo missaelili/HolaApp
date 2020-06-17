@@ -3,19 +3,17 @@ package com.example.holaapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginStart
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_all_chats.*
-import kotlinx.android.synthetic.main.activity_chat_especifico.*
 
 
 class AllChatsActivity : AppCompatActivity() {
@@ -38,30 +36,27 @@ class AllChatsActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         user = auth.currentUser
-        val userCorreo = user?.email.toString()
-        conseguirChats(userCorreo)
     }
 
     private fun conseguirChats(userCorreo: String) {
+        var comprobar = "vacio"
         db.collection("conversaciones").whereEqualTo("usuario1", userCorreo)
             .get()
             .addOnSuccessListener { documents ->
+                comprobar = "lleno"
                 for (document in documents) {
                     armarInterfaz(document.get("usuario2").toString(), document.id)
                 }
-            }
-            .addOnFailureListener { exception ->
-            }
+            }.addOnFailureListener { exception -> }
 
         db.collection("conversaciones").whereEqualTo("usuario2", userCorreo)
             .get()
             .addOnSuccessListener { documents ->
+                comprobar = "lleno"
                 for (document in documents) {
                     armarInterfaz(document.get("usuario1").toString(), document.id)
                 }
-            }
-            .addOnFailureListener { exception ->
-            }
+            }.addOnFailureListener { exception ->}
     }
 
     private fun armarInterfaz(usuarioExtraño: String, documentId: String) {
@@ -121,9 +116,7 @@ class AllChatsActivity : AppCompatActivity() {
                 if (document.get("genero").toString().equals("Hombre")) imagen.setImageDrawable(applicationContext.getDrawable(R.drawable.hombre))
                 else imagen.setImageDrawable(applicationContext.getDrawable(R.drawable.mujer))
                 textviewArriba.setText(document.get("usuario").toString())
-            }
-            .addOnFailureListener { exception ->
-            }
+            }.addOnFailureListener { exception -> }
 
         db.collection("conversaciones").document(documentId).collection("mensajes").orderBy("fecha", Query.Direction.DESCENDING)
             .limit(1)
@@ -131,9 +124,8 @@ class AllChatsActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 if(documents.isEmpty)textviewAbajo.setText("Nuevo Match")
                 else for (document in documents) { textviewAbajo.setText(document.get("texto").toString())}
-            }
-            .addOnFailureListener { exception ->
-            }
+            }.addOnFailureListener { exception -> }
+
         layoutH.addView(imagen)
         layoutH.addView(layoutV)
         layoutV.addView(textviewArriba)
@@ -157,5 +149,30 @@ class AllChatsActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LL1.removeAllViews()
+        conseguirChats(user?.email.toString())
+    }
+
+    private fun noMensajes(){
+        val textviewcentro = TextView(this)
+        val lvab = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        lvab.topMargin = dpToPx(20)
+        lvab.gravity = Gravity.CENTER
+
+        textviewcentro.setPadding(dpToPx(10), dpToPx(10), dpToPx(10), dpToPx(10))
+        textviewcentro.layoutParams = lvab
+
+        textviewcentro.setText("No tienes ninguna conversacion")
+        textviewcentro.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+        textviewcentro.setTextColor(applicationContext.getColor(R.color.text))
+        textviewcentro.background = applicationContext.getDrawable(R.drawable.mensajeusuario)
+        LL1.addView(textviewcentro)
     }
 }

@@ -2,8 +2,6 @@ package com.example.holaapp
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +10,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paypal.android.sdk.payments.*
-import kotlinx.android.synthetic.main.activity_chat_especifico.*
 import kotlinx.android.synthetic.main.activity_premium.*
 import org.json.JSONException
 import java.math.BigDecimal
@@ -38,32 +35,10 @@ class PremiumActivity : AppCompatActivity(){
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser
 
-        val premium = intent.getBooleanExtra("premium", false)
-
         setSupportActionBar(toolbarPremium)
         getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar()!!.setTitle("")
 
-        if(premium) usuarioPremium()
-        else{
-            val intent = Intent(this, PayPalService::class.java)
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
-            startService(intent)
-
-            btnpremium.setOnClickListener {
-
-                val payment = PayPalPayment(
-                    BigDecimal("20.00"), "MXN", "Premium",
-                    PayPalPayment.PAYMENT_INTENT_SALE
-                )
-
-                val intent = Intent(this, PaymentActivity::class.java)
-
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment)
-                startActivityForResult(intent, 0)
-            }
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -107,6 +82,32 @@ class PremiumActivity : AppCompatActivity(){
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val premium = intent.getBooleanExtra("premium", false)
+        if(premium){
+            usuarioPremium()
+        }
+        else{
+            val intent = Intent(this, PayPalService::class.java)
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
+            startService(intent)
+
+            btnpremium.setOnClickListener {
+
+                val payment = PayPalPayment(
+                    BigDecimal("35.00"), "MXN", "Premium",
+                    PayPalPayment.PAYMENT_INTENT_SALE
+                )
+
+                val intent = Intent(this, PaymentActivity::class.java)
+
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment)
+                startActivityForResult(intent, 0)
+            }
+        }
+    }
     private fun usuarioPremium(){
         textView.setText("")
         textView2.setText("")

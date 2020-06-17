@@ -1,15 +1,12 @@
 package com.example.holaapp
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.activity_perfil.*
-import kotlinx.android.synthetic.main.activity_premium.*
 
 class PerfilActivity : AppCompatActivity() {
 

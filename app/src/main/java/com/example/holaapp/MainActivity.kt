@@ -7,7 +7,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_registro.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,11 +57,10 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent(this, PrimeraActivity::class.java))
                         finish()
                     }
-                    else{
+                    else if (document.getBoolean("primera") == false){
                         startActivity(Intent(this, MenuActivity::class.java))
                         finish()
                     }
-                    //Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 } else {
                     Snackbar.make(window.decorView.findViewById(android.R.id.content),"Tenemos probelmas para iniciar su sesion", Snackbar.LENGTH_LONG).show()
                 }

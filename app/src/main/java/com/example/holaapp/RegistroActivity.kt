@@ -22,12 +22,13 @@ class RegistroActivity : AppCompatActivity() {
         setSupportActionBar(toolbarRegistro)
 
         getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()!!.setTitle("")
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         btnrRegistro.setOnClickListener {
-            registarUsuarios(txtrcorreo.text.toString(), txtrpassword1.text.toString(), txtrpassword2.text.toString())
+            registarUsuarios(txtrcorreo.text.toString().toLowerCase(), txtrpassword1.text.toString(), txtrpassword2.text.toString())
         }
     }
 
@@ -53,7 +54,7 @@ class RegistroActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(correo, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            registroDatos(txtrcorreo.text.toString(), txtrpassword1.text.toString())
+                            registroDatos(txtrcorreo.text.toString(), txtrusuario.text.toString())
                         } else {
                             Snackbar.make(window.decorView.findViewById(android.R.id.content),"Ocurrio en error al crear tu usuario, intentalo más tarde", Snackbar.LENGTH_LONG).show()
                         }

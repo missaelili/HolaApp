@@ -7,17 +7,12 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginEnd
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_chat_especifico.*
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ChatEspecificoActivity : AppCompatActivity() {
@@ -36,19 +31,17 @@ class ChatEspecificoActivity : AppCompatActivity() {
 
         getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true);
 
-        db.collection("users").document(user?.email.toString())
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        user = auth.currentUser
+
+        db.collection("users").document(correoExtrano)
             .get()
             .addOnSuccessListener { document ->
                 getSupportActionBar()!!.title = document.get("usuario").toString()
             }
             .addOnFailureListener { exception ->
             }
-
-
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-
-        user = auth.currentUser
         val userCorreo = user?.email.toString()
         val documento = intent.getStringExtra("documentoid")
         escuchar(documento, userCorreo)

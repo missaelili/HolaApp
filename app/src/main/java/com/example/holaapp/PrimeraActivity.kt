@@ -47,7 +47,7 @@ class PrimeraActivity : AppCompatActivity() {
             txtprihobby.setError("Introduce tu Hobby")
             return false
         } else if (txtpriDescripcion.text.toString().length < 120){
-            txtprihobby.setError("Tu descripcion debe contener al menos 120 letras")
+            txtpriDescripcion.setError("Tu descripcion debe contener al menos 120 letras")
             return false
         }  else if (!radioHombre.isChecked && !radioMujer.isChecked){
             txtprihobby.setError("Elige tu genero")
@@ -55,7 +55,7 @@ class PrimeraActivity : AppCompatActivity() {
         } else return true
     }
 
-    private fun registroDatos(edad: String, genero : String, hobby : String, descripcion : String, correo:String){
+        private fun registroDatos(edad: String, genero : String, hobby : String, descripcion : String, correo:String){
         val datos = hashMapOf<String, Any>(
             "edad" to edad,
             "ciudad" to "Hidalgo del Parral",

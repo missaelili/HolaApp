@@ -43,6 +43,7 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="@color/fondo"
+        android:clickable="true"
         app:layout_constraintEnd_toStartOf="@+id/btnchat"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@color/fondo"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/chat" />
@@ -66,6 +68,7 @@
         android:layout_height="500dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:clickable="true"
         app:civ_border_color="@color/text"
         app:civ_border_width="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,6 +122,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/imagebuttonborder"
+            android:clickable="true"
             app:srcCompat="@drawable/dislike" />
 
         <ImageButton
@@ -127,6 +131,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/imagebuttonborder"
+            android:clickable="true"
             app:srcCompat="@drawable/like" />
     </LinearLayout>
 
